@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("responsibility")
@@ -42,5 +43,18 @@ public class ResponsibilityController {
         List<ResponsibilityResponseDTO> responsibilityList = responsibilityRepository.findAll().stream().map(ResponsibilityResponseDTO::new).toList();
 
         return ResponseEntity.ok(responsibilityList);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity updateResponsibility(@RequestBody @Validated ResponsibilityRegisterDTO data, @PathVariable UUID id) {
+        Responsibility responsibility = responsibilityRepository.findById(id).orElse(null);
+        if(responsibility == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            responsibility.setName(data.name());
+            this.responsibilityRepository.save(responsibility);
+        }
+
+        return ResponseEntity.ok().build();
     }
 }

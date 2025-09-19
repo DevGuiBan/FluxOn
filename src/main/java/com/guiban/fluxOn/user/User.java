@@ -3,10 +3,7 @@ package com.guiban.fluxOn.user;
 import com.guiban.fluxOn.user.userSpecs.UserSpecs;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +15,7 @@ import java.util.UUID;
 @Table(name = "users")
 @Entity(name = "users")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -30,7 +28,8 @@ public class User implements UserDetails {
     private String password;
     private boolean active = true;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_spec_id", referencedColumnName = "id")
     private UserSpecs userSpecs;
 
     @Enumerated(EnumType.STRING)
@@ -42,11 +41,10 @@ public class User implements UserDetails {
         else return List.of(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
     }
 
-    public User(String name, String email, String password, UserRole role) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.role = role;
     }
 
     @Override

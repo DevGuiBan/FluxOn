@@ -33,6 +33,11 @@ public class AuthenticationController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
+        User user = (User) auth.getPrincipal();
+        if(!user.isActive()) {
+            return ResponseEntity.status(403).body("Usuário inativo.");
+        }
+
         var token = tokenService.generateToken((User) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
@@ -43,8 +48,8 @@ public class AuthenticationController {
         if(this.userRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.name(), data.email(), encryptedPassword, data.role());
-
+        User newUser = new User(data.name(), data.email(), encryptedPassword);
+        newUser.setRole(UserRole.CLIENT);
         this.userRepository.save(newUser);
 
         return ResponseEntity.ok().build();

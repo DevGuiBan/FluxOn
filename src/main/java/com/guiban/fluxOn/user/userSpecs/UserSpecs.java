@@ -40,4 +40,18 @@ public class UserSpecs {
     private String agency; // ex: bank agency
     private String account; // ex: bank account number
 
+    public UserSpecs (User user, Responsibility responsibility, String number, String cpf, String rg, BigDecimal salary, PaymentMethodUser paymentMethod, String paymentMethodDetails, String bank, String agency, String account) {
+        this.user = user;
+        this.responsibility = responsibility;
+        this.number = number;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.salary = salary;
+        this.paymentMethod = paymentMethod;
+        this.paymentMethodDetails = paymentMethodDetails;
+        this.bank = bank;
+        this.agency = agency;
+        this.account = account;
+    }
+
 }
