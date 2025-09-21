@@ -1,4 +1,4 @@
-package com.guiban.fluxOn.user.userSpecs;
+package com.guiban.fluxOn.userSpecs;
 
 public enum PaymentMethodUser {
     PIX("pix"),

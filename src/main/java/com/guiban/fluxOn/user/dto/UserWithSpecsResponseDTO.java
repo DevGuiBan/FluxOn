@@ -3,8 +3,8 @@ package com.guiban.fluxOn.user.dto;
 import com.guiban.fluxOn.responsibility.Responsibility;
 import com.guiban.fluxOn.user.User;
 import com.guiban.fluxOn.user.UserRole;
-import com.guiban.fluxOn.user.userSpecs.PaymentMethodUser;
-import com.guiban.fluxOn.user.userSpecs.UserSpecs;
+import com.guiban.fluxOn.userSpecs.PaymentMethodUser;
+import com.guiban.fluxOn.userSpecs.UserSpecs;
 
 import java.math.BigDecimal;
 import java.util.UUID;

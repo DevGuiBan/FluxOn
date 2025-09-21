@@ -1,4 +1,4 @@
-package com.guiban.fluxOn.user.userSpecs.dto;
+package com.guiban.fluxOn.userSpecs.dto;
 
 import java.math.BigDecimal;
 import java.util.UUID;

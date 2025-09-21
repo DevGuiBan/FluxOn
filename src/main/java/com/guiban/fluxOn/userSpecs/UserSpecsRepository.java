@@ -1,4 +1,4 @@
-package com.guiban.fluxOn.user.userSpecs;
+package com.guiban.fluxOn.userSpecs;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

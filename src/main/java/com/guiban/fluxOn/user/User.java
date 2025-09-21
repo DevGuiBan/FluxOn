@@ -1,6 +1,6 @@
 package com.guiban.fluxOn.user;
 
-import com.guiban.fluxOn.user.userSpecs.UserSpecs;
+import com.guiban.fluxOn.userSpecs.UserSpecs;
 
 import jakarta.persistence.*;
 import lombok.*;

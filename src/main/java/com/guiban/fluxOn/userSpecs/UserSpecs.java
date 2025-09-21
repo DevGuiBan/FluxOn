@@ -1,4 +1,4 @@
-package com.guiban.fluxOn.user.userSpecs;
+package com.guiban.fluxOn.userSpecs;
 
 import com.guiban.fluxOn.user.User;
 import com.guiban.fluxOn.responsibility.Responsibility;
