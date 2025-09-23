@@ -10,3 +10,7 @@ FOREIGN KEY (responsibility_id) REFERENCES responsibilities(id) ON DELETE SET NU
 ALTER TABLE users
 ADD CONSTRAINT fk_users_user_spec
 FOREIGN KEY (user_spec_id) REFERENCES user_specs(id) ON DELETE SET NULL;
+-- Work Schedule -> Users (Many-to-One)
+ALTER TABLE work_schedule
+ADD CONSTRAINT fk_work_schedule_user
+FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
