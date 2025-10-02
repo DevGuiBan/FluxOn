@@ -8,11 +8,11 @@ import com.guiban.fluxOn.workSchedule.WorkSchedule;
 import java.sql.Time;
 import java.util.UUID;
 
-public record WorkScheduleResponseDTO (UUID id, String name, Turn turn, DayOfWeek dayOfWeek, Time startTime, Time endTime) {
-    public WorkScheduleResponseDTO (WorkSchedule workSchedule, User user) {
+public record WorkScheduleResponseDTO (UUID id, UUID userId, Turn turn, DayOfWeek dayOfWeek, Time startTime, Time endTime) {
+    public WorkScheduleResponseDTO(WorkSchedule workSchedule , User user) {
         this(
                 workSchedule.getId(),
-                user.getName(),
+                user.getId(),
                 workSchedule.getTurn(),
                 workSchedule.getDayOfWeek(),
                 workSchedule.getStartTime(),

@@ -78,7 +78,7 @@ public class UserController {
         User user = userRepository.findById(data.userId()).orElse(null);
         Responsibility responsibility = responsibilityRepository.findById(data.responsibilityId()).orElse(null);
 
-        if (user == null || responsibility == null) return ResponseEntity.status(404).body("Usuário ou Responsabilidade encontrado.");
+        if (user == null || responsibility == null) return ResponseEntity.status(404).body("Usuário ou Responsabilidade não encontrado.");
 
         try {
             UserSpecs userSpecs = new UserSpecs(

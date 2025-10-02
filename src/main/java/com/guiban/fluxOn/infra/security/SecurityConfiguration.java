@@ -27,13 +27,16 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        //Authentication endpoints
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
 
+                        //Responsibility endpoints
                         .requestMatchers(HttpMethod.POST, "/responsibility/register").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/responsibility/responsibilities").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/responsibility/update/{id}").hasRole("ADMIN")
 
+                        //User endpoints
                         .requestMatchers(HttpMethod.GET, "/manager/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/manager/createUserSpecs").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/manager/usersWithSpecs").hasRole("ADMIN")
@@ -41,6 +44,12 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, "/manager/deactivateUser/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/manager/updateUserByUser/{id}").hasRole("EMPLOYEE")
                         .requestMatchers(HttpMethod.PUT, "/manager/updateUserByAdmin/{id}").hasRole("ADMIN")
+
+                        //WorkSchedule endpoints
+                        .requestMatchers(HttpMethod.GET, "/workSchedule/workSchedules").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/workSchedule/createWorkSchedule").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/workSchedule/updateWorkSchedule/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/workSchedule/bulkUpdateWorkSchedule").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
