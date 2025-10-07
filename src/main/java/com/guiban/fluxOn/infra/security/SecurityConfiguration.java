@@ -50,6 +50,12 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/workSchedule/createWorkSchedule").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/workSchedule/updateWorkSchedule/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/workSchedule/bulkUpdateWorkSchedule").hasRole("ADMIN")
+
+                        //TimeClock endpoints
+                        .requestMatchers(HttpMethod.POST, "/timeClock/registerTimeClockIn").hasAnyRole("ADMIN", "EMPLOYEE")
+                        .requestMatchers(HttpMethod.GET, "/timeClock/timeClocks").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "timeClock/timeClocksById/{id}").hasAnyRole("ADMIN","EMPLOYEE")
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

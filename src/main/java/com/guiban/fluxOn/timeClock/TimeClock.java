@@ -34,12 +34,19 @@ public class TimeClock {
     private Time clockOut;
     private String justification;
 
-    public TimeClock (User user,AttendanceStatus attendanceStatus, Date date, Time clockIn, Time clockOut, String justification) {
+    public TimeClock (User user, AttendanceStatus attendanceStatus, Date date, Time clockIn, Time clockOut, String justification) {
         this.user = user;
         this.attendanceStatus = attendanceStatus;
         this.date = date;
         this.clockIn = clockIn;
         this.clockOut = clockOut;
         this.justification = justification;
+    }
+
+    public TimeClock (User user, AttendanceStatus attendanceStatus, Date date, Time clockIn) {
+        this.user = user;
+        this.attendanceStatus = attendanceStatus;
+        this.date = date;
+        this.clockIn = clockIn;
     }
 }

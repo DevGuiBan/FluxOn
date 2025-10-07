@@ -1,7 +1,5 @@
 package com.guiban.fluxOn.user.dto;
 
-import java.math.BigDecimal;
-
 public record UserWithSpecsUserUpdateDTO(
         String name,
         String email,

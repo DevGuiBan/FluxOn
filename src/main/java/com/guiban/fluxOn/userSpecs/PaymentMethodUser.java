@@ -1,17 +1,17 @@
 package com.guiban.fluxOn.userSpecs;
 
+import lombok.Getter;
+
+@Getter
 public enum PaymentMethodUser {
     PIX("pix"),
     CASH("dinheiro"),
     BANK("banco");
 
-    private String paymentMethod;
+    private final String paymentMethod;
 
     PaymentMethodUser(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
 }

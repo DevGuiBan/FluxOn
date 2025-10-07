@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,7 +33,7 @@ public class UserController {
     private ResponsibilityRepository responsibilityRepository;
 
     @GetMapping("/users")
-    public ResponseEntity getAllUsers() {
+    public ResponseEntity<?> getAllUsers() {
         try {
             List<UserResponseDTO> userList = userRepository.findAll().stream().map(UserResponseDTO::new).toList();
 
@@ -45,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity getUserById(@PathVariable UUID id) {
+    public ResponseEntity<?> getUserById(@PathVariable UUID id) {
         try {
             List<UserWithSpecsResponseDTO> userList = userRepository.findById(id).stream()
                     .filter(user -> user.getUserSpecs() != null)
@@ -60,7 +59,7 @@ public class UserController {
     }
 
     @GetMapping("/usersWithSpecs")
-    public ResponseEntity getAllUsersWithSpecs() {
+    public ResponseEntity<?> getAllUsersWithSpecs() {
         try {
             List<UserWithSpecsResponseDTO> userList = userRepository.findAll().stream()
                     .filter(user -> user.getUserSpecs() != null)
@@ -74,7 +73,7 @@ public class UserController {
     }
 
     @PostMapping("/createUserSpecs")
-    public ResponseEntity createUserSpecs(@RequestBody UserSpecsRegisterDTO data) {
+    public ResponseEntity<?> createUserSpecs(@RequestBody UserSpecsRegisterDTO data) {
         User user = userRepository.findById(data.userId()).orElse(null);
         Responsibility responsibility = responsibilityRepository.findById(data.responsibilityId()).orElse(null);
 
@@ -106,7 +105,7 @@ public class UserController {
     }
 
     @PutMapping("/deactivateUser/{id}")
-    public ResponseEntity deactivateUser(@PathVariable UUID id) {
+    public ResponseEntity<?> deactivateUser(@PathVariable UUID id) {
         User user = userRepository.findById(id).orElse(null);
 
         if(user == null) return ResponseEntity.status(404).body("Usuário não encontrado.");
@@ -121,7 +120,7 @@ public class UserController {
     }
 
     @PutMapping("/activateUser/{id}")
-    public ResponseEntity activateUser(@PathVariable UUID id) {
+    public ResponseEntity<?> activateUser(@PathVariable UUID id) {
         User user = userRepository.findById(id).orElse(null);
 
         if(user == null) return ResponseEntity.status(404).body("Usuário não encontrado.");
@@ -137,7 +136,7 @@ public class UserController {
     }
 
     @PutMapping("/updateUserByUser/{id}")
-    public ResponseEntity updateUserByUser(@PathVariable UUID id, @RequestBody UserWithSpecsUserUpdateDTO data) {
+    public ResponseEntity<?> updateUserByUser(@PathVariable UUID id, @RequestBody UserWithSpecsUserUpdateDTO data) {
         User user = userRepository.findById(id).orElse(null);
 
         if (user == null) return ResponseEntity.status(404).body("Usuário não encontrado.");
@@ -171,7 +170,7 @@ public class UserController {
     }
 
     @PutMapping("/updateUserByAdmin/{id}")
-    public ResponseEntity updateUserByAdmin(@PathVariable UUID id, @RequestBody UserWithSpecsAdminUpdateDTO data) {
+    public ResponseEntity<?> updateUserByAdmin(@PathVariable UUID id, @RequestBody UserWithSpecsAdminUpdateDTO data) {
         User user = userRepository.findById(id).orElse(null);
         if (user == null) {
             return ResponseEntity.status(404).body("Usuário não encontrado.");
