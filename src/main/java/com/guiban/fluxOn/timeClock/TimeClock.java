@@ -1,6 +1,7 @@
 package com.guiban.fluxOn.timeClock;
 
 import com.guiban.fluxOn.user.User;
+import com.guiban.fluxOn.workSchedule.Turn;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -29,24 +30,19 @@ public class TimeClock {
     @Enumerated(EnumType.STRING)
     private AttendanceStatus attendanceStatus;
 
-    private Date date;
-    private Time clockIn;
+    @Enumerated(EnumType.STRING)
+    private Turn turn;
+
+    private LocalDate date;
+    private Time clock;
     private Time clockOut;
     private String justification;
 
-    public TimeClock (User user, AttendanceStatus attendanceStatus, Date date, Time clockIn, Time clockOut, String justification) {
+    public TimeClock (User user, AttendanceStatus attendanceStatus, Turn turn, LocalDate date, Time clock) {
         this.user = user;
         this.attendanceStatus = attendanceStatus;
+        this.turn = turn;
         this.date = date;
-        this.clockIn = clockIn;
-        this.clockOut = clockOut;
-        this.justification = justification;
-    }
-
-    public TimeClock (User user, AttendanceStatus attendanceStatus, Date date, Time clockIn) {
-        this.user = user;
-        this.attendanceStatus = attendanceStatus;
-        this.date = date;
-        this.clockIn = clockIn;
+        this.clock = clock;
     }
 }

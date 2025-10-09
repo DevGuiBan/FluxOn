@@ -54,7 +54,8 @@ public class SecurityConfiguration {
                         //TimeClock endpoints
                         .requestMatchers(HttpMethod.POST, "/timeClock/registerTimeClockIn").hasAnyRole("ADMIN", "EMPLOYEE")
                         .requestMatchers(HttpMethod.GET, "/timeClock/timeClocks").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "timeClock/timeClocksById/{id}").hasAnyRole("ADMIN","EMPLOYEE")
+                        .requestMatchers(HttpMethod.GET, "/timeClock/timeClocksById/{id}").hasAnyRole("ADMIN","EMPLOYEE")
+                        .requestMatchers(HttpMethod.PUT, "/timeClock/registerTimeClockOut/{id}").hasAnyRole("ADMIN", "EMPLOYEE")
 
                         .anyRequest().authenticated()
                 )
