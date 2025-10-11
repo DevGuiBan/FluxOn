@@ -56,6 +56,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/timeClock/timeClocks").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/timeClock/timeClocksById/{id}").hasAnyRole("ADMIN","EMPLOYEE")
                         .requestMatchers(HttpMethod.PUT, "/timeClock/registerTimeClockOut/{id}").hasAnyRole("ADMIN", "EMPLOYEE")
+                        .requestMatchers(HttpMethod.PUT, "/timeClock/updateTimeClock/{id}").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )

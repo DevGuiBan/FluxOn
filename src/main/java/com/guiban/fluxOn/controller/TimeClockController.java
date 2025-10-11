@@ -5,6 +5,7 @@ import com.guiban.fluxOn.timeClock.TimeClock;
 import com.guiban.fluxOn.timeClock.TimeClockRepository;
 import com.guiban.fluxOn.timeClock.dto.TimeClockRegisterInDTO;
 import com.guiban.fluxOn.timeClock.dto.TimeClockResponseDTO;
+import com.guiban.fluxOn.timeClock.dto.TimeClockUpdateDTO;
 import com.guiban.fluxOn.user.User;
 import com.guiban.fluxOn.user.UserRepository;
 import com.guiban.fluxOn.workSchedule.Turn;
@@ -14,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -90,9 +93,9 @@ public class TimeClockController {
                     clock
             );
 
-            if(user == null) return ResponseEntity.status(404).body("Usuário não encontrado");
+            if(user == null) return ResponseEntity.status(404).body("Usuário não encontrado.");
             if(workSchedules.isEmpty()) return ResponseEntity.status(404).body("Usuário sem horário de trabalho registrado.");
-            if(timeClockAlreadyRegistered != null) return ResponseEntity.status(409).body("Entrada já registrada");
+            if(timeClockAlreadyRegistered != null) return ResponseEntity.status(409).body("Entrada já registrada.");
             if(!isTurnValid) return ResponseEntity.status(409).body("Você está registrando fora do seu turno de trabalho.");
 
             timeClockRepository.save(timeClock);
@@ -100,7 +103,7 @@ public class TimeClockController {
             throw new RuntimeException(e);
         }
 
-        return ResponseEntity.ok("Horário registrado com sucesso");
+        return ResponseEntity.ok("Horário registrado com sucesso.");
     }
     
     @PutMapping("/registerTimeClockOut/{id}")
@@ -109,12 +112,34 @@ public class TimeClockController {
             Time clockOut = Time.valueOf(LocalTime.now());
             LocalDate date = LocalDate.now();
             TimeClock timeClock = timeClockRepository.findByUserIdAndDate(id, date);
-            if(timeClock == null) return ResponseEntity.status(404).body("Nenhuma entrada registrada");
+            if(timeClock == null) return ResponseEntity.status(404).body("Nenhuma entrada registrada.");
 
             timeClock.setClockOut(clockOut);
             timeClockRepository.save(timeClock);
-            return ResponseEntity.ok("Saída Registrada com sucesso");
+            return ResponseEntity.ok("Saída Registrada com sucesso.");
 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PutMapping("/updateTimeClock/{id}")
+    public ResponseEntity<?> updateTimeClockById (@PathVariable UUID id, @RequestBody TimeClockUpdateDTO data) {
+
+        TimeClock timeClock = timeClockRepository.findById(id).orElse(null);
+
+        if (timeClock == null) return ResponseEntity.status(404).body("Horário de ponto não encontrado.");
+
+        try {
+            if(data.clock() != null) timeClock.setClock(Time.valueOf(data.clock()));
+            if(data.clockOut() != null) timeClock.setClockOut(Time.valueOf(data.clockOut()));
+            if(data.attendanceStatus() != null) timeClock.setAttendanceStatus(AttendanceStatus.valueOf(data.attendanceStatus()));
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            if(data.date() != null) timeClock.setDate(LocalDate.parse(data.date(), dtf));
+
+            timeClockRepository.save(timeClock);
+            return ResponseEntity.ok("Ponto atualizado com sucesso.");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

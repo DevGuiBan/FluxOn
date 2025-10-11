@@ -36,7 +36,6 @@ public class TimeClock {
     private LocalDate date;
     private Time clock;
     private Time clockOut;
-    private String justification;
 
     public TimeClock (User user, AttendanceStatus attendanceStatus, Turn turn, LocalDate date, Time clock) {
         this.user = user;

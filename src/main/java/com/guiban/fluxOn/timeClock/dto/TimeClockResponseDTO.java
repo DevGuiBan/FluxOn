@@ -16,8 +16,8 @@ public record TimeClockResponseDTO (UUID id,
                                     Turn turn,
                                     @JsonFormat(pattern = "dd-MM-yyyy") LocalDate date,
                                     Time clock,
-                                    Time clockOut,
-                                    String justification) {
+                                    Time clockOut
+                                    ) {
     
     public TimeClockResponseDTO(TimeClock timeClock) {
         this(
@@ -28,8 +28,7 @@ public record TimeClockResponseDTO (UUID id,
                 timeClock.getTurn(),
                 timeClock.getDate(),
                 timeClock.getClock(),
-                timeClock.getClockOut(),
-                timeClock.getJustification()
+                timeClock.getClockOut()
         );
     }
 }
