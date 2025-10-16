@@ -1,4 +1,7 @@
 package com.guiban.fluxOn.user.dto;
 
-public record AuthenticationDTO(String email, String password) {
-}
+import org.springframework.lang.NonNull;
+
+public record AuthenticationDTO(@NonNull String email,
+                                @NonNull String password
+) {}

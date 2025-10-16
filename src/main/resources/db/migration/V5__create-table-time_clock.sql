@@ -1,4 +1,5 @@
 CREATE TABLE time_clock (
+
     id UUID PRIMARY KEY DEFAULT GEN_RANDOM_UUID(),
     user_id UUID NOT NULL,
     clock TIME,

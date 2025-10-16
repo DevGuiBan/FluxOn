@@ -41,15 +41,16 @@ public class User implements UserDetails {
         else return List.of(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
     }
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, boolean active) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.active = active;
     }
 
     @Override
     public String getUsername() {
-        return name;
+        return email;
     }
 
     @Override
