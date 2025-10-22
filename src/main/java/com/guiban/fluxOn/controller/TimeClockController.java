@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -111,8 +112,12 @@ public class TimeClockController {
         try {
             Time clockOut = Time.valueOf(LocalTime.now());
             LocalDate date = LocalDate.now();
-            TimeClock timeClock = timeClockRepository.findByUserIdAndDate(id, date);
-            if(timeClock == null) return ResponseEntity.status(404).body("Nenhuma entrada registrada.");
+
+            Optional<TimeClock> timeClockOpt = timeClockRepository.findTopByUserIdAndDateAndClockOutIsNullOrderByClockDesc(id, date);
+            if(timeClockOpt.isEmpty()) return ResponseEntity.status(404).body("Nenhuma entrada registrada.");
+            TimeClock timeClock = timeClockOpt.get();
+            if(timeClock.getClockOut() != null) return ResponseEntity.status(409).body("Saída já registrada");
+
 
             timeClock.setClockOut(clockOut);
             timeClockRepository.save(timeClock);

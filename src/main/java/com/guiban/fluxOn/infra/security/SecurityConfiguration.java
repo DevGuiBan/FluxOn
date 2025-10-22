@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,6 +25,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
@@ -35,9 +37,11 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/responsibility/register").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/responsibility/responsibilities").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/responsibility/update/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "responsibility/delete/{id}").hasRole("ADMIN")
 
                         //User endpoints
                         .requestMatchers(HttpMethod.GET, "/manager/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/manager/usersWithSpecsById/{id}").hasAnyRole("ADMIN", "EMPLOYEE")
                         .requestMatchers(HttpMethod.POST, "/manager/createUserSpecs").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/manager/usersWithSpecs").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/manager/user/{id}").hasRole("ADMIN")
@@ -50,6 +54,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/workSchedule/createWorkSchedule").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/workSchedule/updateWorkSchedule/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/workSchedule/bulkUpdateWorkSchedule").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/workSchedule/workSchedulesById/{id}").hasAnyRole("ADMIN", "EMPLOYEE")
 
                         //TimeClock endpoints
                         .requestMatchers(HttpMethod.POST, "/timeClock/registerTimeClockIn").hasAnyRole("ADMIN", "EMPLOYEE")

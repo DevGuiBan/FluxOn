@@ -42,6 +42,18 @@ public class WorkScheduleController {
         }
     }
 
+    @GetMapping("/workSchedulesById/{id}")
+    public ResponseEntity<?> getWorkSchedulesByid(@PathVariable UUID id) {
+        try {
+            List<WorkSchedule> workScheduleList = workScheduleRepository.findById(id).stream().toList();
+
+            return ResponseEntity.ok(workScheduleList);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     @PostMapping("/createWorkSchedule")
     public ResponseEntity<?> createWorkSchedule(@RequestBody WorkScheduleRegisterDTO data) {
         User user = userRepository.findById(data.userId()).orElse(null);

@@ -5,7 +5,7 @@ CREATE TABLE work_schedule (
     day_of_week VARCHAR(50) NOT NULL,
     turn VARCHAR(50) NOT NULL,
     start_time TIME NOT NULL,
-    end_time TIME NOT NULL
+    end_time TIME NOT NULL,
 
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP

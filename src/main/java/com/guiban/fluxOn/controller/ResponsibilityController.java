@@ -28,7 +28,7 @@ public class ResponsibilityController {
     private ResponsibilityRepository responsibilityRepository;
 
     @PostMapping("/register")
-    public ResponseEntity registerResponsibility(@RequestBody @Validated ResponsibilityRegisterDTO data) {
+    public ResponseEntity<?> registerResponsibility(@RequestBody @Validated ResponsibilityRegisterDTO data) {
         if(this.responsibilityRepository.findByName(data.name()) != null) return ResponseEntity.badRequest().build();
 
         Responsibility newResponsibility = new Responsibility(data.name());
@@ -39,14 +39,27 @@ public class ResponsibilityController {
     }
 
     @GetMapping("/responsibilities")
-    public ResponseEntity getAllResponsibilities() {
+    public ResponseEntity<?> getAllResponsibilities() {
         List<ResponsibilityResponseDTO> responsibilityList = responsibilityRepository.findAll().stream().map(ResponsibilityResponseDTO::new).toList();
 
         return ResponseEntity.ok(responsibilityList);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteResponsibilityById(@PathVariable UUID id) {
+        try {
+            if(!responsibilityRepository.existsById(id)) return ResponseEntity.status(404).body("Erro ao buscar o cargo, não encontrado.");
+
+            responsibilityRepository.deleteById(id);
+
+            return ResponseEntity.ok("Cargo deletado com sucesso.");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @PutMapping("/update/{id}")
-    public ResponseEntity updateResponsibility(@RequestBody @Validated ResponsibilityRegisterDTO data, @PathVariable UUID id) {
+    public ResponseEntity<?> updateResponsibility(@RequestBody @Validated ResponsibilityRegisterDTO data, @PathVariable UUID id) {
         Responsibility responsibility = responsibilityRepository.findById(id).orElse(null);
         if(responsibility == null) {
             return ResponseEntity.notFound().build();

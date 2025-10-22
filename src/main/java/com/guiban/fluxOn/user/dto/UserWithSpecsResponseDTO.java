@@ -6,8 +6,10 @@ import com.guiban.fluxOn.userSpecs.PaymentMethodUser;
 import com.guiban.fluxOn.userSpecs.UserSpecs;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public record UserWithSpecsResponseDTO(
+                                       UUID id,
                                        String name,
                                        String email,
                                        UserRole role,
@@ -22,8 +24,10 @@ public record UserWithSpecsResponseDTO(
                                        String bank,
                                        String agency,
                                        String account) {
+
     public UserWithSpecsResponseDTO(User user, UserSpecs userSpecs) {
         this(
+                user.getId(),
                 user.getName(),
                 user.getEmail(),
                 user.getRole(),

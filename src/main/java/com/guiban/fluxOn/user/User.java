@@ -26,7 +26,7 @@ public class User implements UserDetails {
     private String name;
     private String email;
     private String password;
-    private boolean active = true;
+    private boolean active;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_spec_id", referencedColumnName = "id")
