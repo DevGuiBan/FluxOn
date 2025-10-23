@@ -94,8 +94,10 @@ public class WorkScheduleController {
         try {
             if(data.dayOfWeek() != null) workSchedule.setDayOfWeek(DayOfWeek.valueOf(data.dayOfWeek()));
             if(data.turn() != null) workSchedule.setTurn(Turn.valueOf(data.turn()));
-            if(data.startTime() != null) workSchedule.setStartTime(data.startTime());
-            if(data.endTime() != null) workSchedule.setEndTime(data.endTime());
+            if(data.startTime() != null) workSchedule.setStartTime(Time.valueOf(data.startTime()));
+            if(data.endTime() != null) workSchedule.setEndTime(Time.valueOf(data.endTime()));
+
+            workScheduleRepository.save(workSchedule);
 
             return ResponseEntity.ok("Horário de trabalho atualizado com sucesso");
         } catch (Exception e) {
@@ -119,8 +121,8 @@ public class WorkScheduleController {
             try {
                 if(dto.dayOfWeek() != null) workSchedule.setDayOfWeek(DayOfWeek.valueOf(dto.dayOfWeek()));
                 if(dto.turn() != null) workSchedule.setTurn(Turn.valueOf(dto.turn()));
-                if(dto.startTime() != null) workSchedule.setStartTime(dto.startTime());
-                if(dto.endTime() != null) workSchedule.setEndTime(dto.endTime());
+                if(dto.startTime() != null) workSchedule.setStartTime(Time.valueOf(dto.startTime()));
+                if(dto.endTime() != null) workSchedule.setEndTime(Time.valueOf(dto.endTime()));
 
                 updateSchedules.add(workSchedule);
             } catch (Exception e) {
@@ -133,5 +135,13 @@ public class WorkScheduleController {
         }
         workScheduleRepository.saveAll(updateSchedules);
         return ResponseEntity.ok("Horário(s) de trabalho atualizado(s) com sucesso");
+    }
+
+    @DeleteMapping("/deleteWorkSchedule/{id}")
+    public ResponseEntity<?> deleteWorkSchedule (@PathVariable UUID id) {
+        return workScheduleRepository.findById(id).map( ws -> {
+            workScheduleRepository.delete(ws);
+            return ResponseEntity.ok("Horário de trabalho deletado com sucesso");
+        }).orElseGet(() -> ResponseEntity.status(404).body("Horário de trabalho não encontrado"));
     }
 }

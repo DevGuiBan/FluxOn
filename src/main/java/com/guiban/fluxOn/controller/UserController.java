@@ -163,6 +163,15 @@ public class UserController {
         if (data.role() != null) user.setRole(UserRole.valueOf(data.role()));
         userRepository.save(user);
 
+        if (data.cpf() != null) {
+            boolean cpfTaken = userSpecsRepository.findAll().stream()
+                    .filter(spec -> spec.getCpf() != null)
+                    .anyMatch(spec -> spec.getCpf().equals(data.cpf()) && !spec.getUser().getId().equals(user.getId()));
+            if (cpfTaken) {
+                return ResponseEntity.status(409).body("Já existe um usuário cadastrado com essas informações");
+            }
+        }
+
         UserSpecs userSpecs = user.getUserSpecs();
         if (userSpecs != null) {
             if (data.number() != null) userSpecs.setNumber(data.number());
@@ -186,6 +195,17 @@ public class UserController {
                 if (responsibility == null) {
                     return ResponseEntity.status(404).body("Responsabilidade não encontrada.");
                 }
+
+                // Verificação de CPF único antes de criar
+                if (data.cpf() != null) {
+                    boolean cpfTaken = userSpecsRepository.findAll().stream()
+                            .filter(spec -> spec.getCpf() != null)
+                            .anyMatch(spec -> spec.getCpf().equals(data.cpf()) && !spec.getUser().getId().equals(user.getId()));
+                    if (cpfTaken) {
+                        return ResponseEntity.status(409).body("CPF já cadastrado para outro usuário.");
+                    }
+                }
+
                 UserSpecs newSpecs = new UserSpecs(
                         user,
                         responsibility,

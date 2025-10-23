@@ -5,6 +5,7 @@ import com.guiban.fluxOn.responsibility.Responsibility;
 import com.guiban.fluxOn.responsibility.ResponsibilityRepository;
 import com.guiban.fluxOn.responsibility.dto.ResponsibilityRegisterDTO;
 import com.guiban.fluxOn.responsibility.dto.ResponsibilityResponseDTO;
+import com.guiban.fluxOn.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +18,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("responsibility")
 public class ResponsibilityController {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -45,17 +49,14 @@ public class ResponsibilityController {
         return ResponseEntity.ok(responsibilityList);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteResponsibility/{id}")
     public ResponseEntity<?> deleteResponsibilityById(@PathVariable UUID id) {
-        try {
-            if(!responsibilityRepository.existsById(id)) return ResponseEntity.status(404).body("Erro ao buscar o cargo, não encontrado.");
-
-            responsibilityRepository.deleteById(id);
-
+        return responsibilityRepository.findById(id).map(responsibility -> {
+            boolean inUse = userRepository.existsByUserSpecsResponsibilityId(id);
+            if(inUse) return ResponseEntity.status(409).body("Não é possível deletar: cargo associado a um ou mais usuários.");
+            responsibilityRepository.delete(responsibility);
             return ResponseEntity.ok("Cargo deletado com sucesso.");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        }).orElseGet(() -> ResponseEntity.status(404).body("Cargo não encontrado"));
     }
 
     @PutMapping("/update/{id}")

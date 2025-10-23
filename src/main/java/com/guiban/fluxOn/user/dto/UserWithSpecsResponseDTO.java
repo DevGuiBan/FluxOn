@@ -32,16 +32,16 @@ public record UserWithSpecsResponseDTO(
                 user.getEmail(),
                 user.getRole(),
                 user.isActive(),
-                userSpecs.getResponsibility().getName(),
-                userSpecs.getNumber(),
-                userSpecs.getCpf(),
-                userSpecs.getRg(),
-                userSpecs.getSalary(),
-                userSpecs.getPaymentMethod(),
-                userSpecs.getPaymentMethodDetails(),
-                userSpecs.getBank(),
-                userSpecs.getAgency(),
-                userSpecs.getAccount()
+                userSpecs != null && userSpecs.getResponsibility() != null ? userSpecs.getResponsibility().getName() : null,
+                userSpecs != null ? userSpecs.getNumber() : null,
+                userSpecs != null ? userSpecs.getCpf() : null,
+                userSpecs != null ? userSpecs.getRg() : null,
+                userSpecs != null ? userSpecs.getSalary() : null,
+                userSpecs != null ? userSpecs.getPaymentMethod() : null,
+                userSpecs != null ? userSpecs.getPaymentMethodDetails() : null,
+                userSpecs != null ? userSpecs.getBank() : null,
+                userSpecs != null ? userSpecs.getAgency() : null,
+                userSpecs != null ? userSpecs.getAccount() : null
         );
     }
 }

@@ -149,4 +149,12 @@ public class TimeClockController {
             throw new RuntimeException(e);
         }
     }
+
+    @DeleteMapping("/deleteTimeClockById/{id}")
+    public ResponseEntity<?> deleteTimeClockById(@PathVariable UUID id) {
+        return timeClockRepository.findById(id).map(ws -> {
+            timeClockRepository.delete(ws);
+            return ResponseEntity.ok("Ponto deletado com sucesso");
+        }).orElseGet(() -> ResponseEntity.status(404).body("Ponto não encontrado."));
+    }
 }

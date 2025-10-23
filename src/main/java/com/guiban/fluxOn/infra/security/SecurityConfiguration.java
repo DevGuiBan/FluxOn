@@ -37,7 +37,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/responsibility/register").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/responsibility/responsibilities").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/responsibility/update/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "responsibility/delete/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "responsibility/deleteResponsibility/{id}").hasRole("ADMIN")
 
                         //User endpoints
                         .requestMatchers(HttpMethod.GET, "/manager/users").hasRole("ADMIN")
@@ -55,6 +55,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, "/workSchedule/updateWorkSchedule/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/workSchedule/bulkUpdateWorkSchedule").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/workSchedule/workSchedulesById/{id}").hasAnyRole("ADMIN", "EMPLOYEE")
+                        .requestMatchers(HttpMethod.DELETE, "/workSchedule/deleteWorkSchedule/{id}").hasRole("ADMIN")
 
                         //TimeClock endpoints
                         .requestMatchers(HttpMethod.POST, "/timeClock/registerTimeClockIn").hasAnyRole("ADMIN", "EMPLOYEE")
@@ -62,6 +63,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/timeClock/timeClocksById/{id}").hasAnyRole("ADMIN","EMPLOYEE")
                         .requestMatchers(HttpMethod.PUT, "/timeClock/registerTimeClockOut/{id}").hasAnyRole("ADMIN", "EMPLOYEE")
                         .requestMatchers(HttpMethod.PUT, "/timeClock/updateTimeClock/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "timeClock/deleteTimeClockById/{id}").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )
