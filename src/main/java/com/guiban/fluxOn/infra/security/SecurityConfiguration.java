@@ -48,6 +48,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, "/manager/deactivateUser/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/manager/updateUserByUser/{id}").hasRole("EMPLOYEE")
                         .requestMatchers(HttpMethod.PUT, "/manager/updateUserByAdmin/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/manager/changeRole/{id}").hasRole("ADMIN")
 
                         //WorkSchedule endpoints
                         .requestMatchers(HttpMethod.GET, "/workSchedule/workSchedules").hasRole("ADMIN")
@@ -55,6 +56,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, "/workSchedule/updateWorkSchedule/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/workSchedule/bulkUpdateWorkSchedule").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/workSchedule/workSchedulesById/{id}").hasAnyRole("ADMIN", "EMPLOYEE")
+                        .requestMatchers(HttpMethod.GET, "/workSchedule/workSchedulesByUserId/{id}").hasAnyRole("ADMIN", "EMPLOYEE")
                         .requestMatchers(HttpMethod.DELETE, "/workSchedule/deleteWorkSchedule/{id}").hasRole("ADMIN")
 
                         //TimeClock endpoints

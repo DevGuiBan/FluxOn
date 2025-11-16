@@ -116,6 +116,22 @@ public class UserController {
 
     }
 
+    @PutMapping("/changeRole/{id}")
+    public ResponseEntity<?> changeRole(@PathVariable UUID id, UserRole role) {
+        User user = userRepository.findById(id).orElse(null);
+
+        if(user == null) return ResponseEntity.notFound().build();
+
+        try {
+            user.setRole(role);
+            userRepository.save(user);
+            return ResponseEntity.ok("Alteração feita com sucesso!");
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     @PutMapping("/updateUserByUser/{id}")
     public ResponseEntity<?> updateUserByUser(@PathVariable UUID id, @RequestBody UserWithSpecsUserUpdateDTO data) {
         User user = userRepository.findById(id).orElse(null);
@@ -196,7 +212,6 @@ public class UserController {
                     return ResponseEntity.status(404).body("Responsabilidade não encontrada.");
                 }
 
-                // Verificação de CPF único antes de criar
                 if (data.cpf() != null) {
                     boolean cpfTaken = userSpecsRepository.findAll().stream()
                             .filter(spec -> spec.getCpf() != null)

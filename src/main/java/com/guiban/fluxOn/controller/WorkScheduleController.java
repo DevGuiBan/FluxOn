@@ -18,6 +18,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequestMapping("workSchedule")
 @RestController
@@ -51,6 +52,14 @@ public class WorkScheduleController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @GetMapping("/workSchedulesByUserId/{id}")
+    public ResponseEntity<?> getWorkSchedulesByUserId(@PathVariable UUID id) {
+        List<WorkScheduleResponseDTO> workScheduleUserList = workScheduleRepository.findByUserId(id).stream()
+                .map(ws -> new WorkScheduleResponseDTO(ws, ws.getUser()))
+                .toList();
+        return ResponseEntity.ok(workScheduleUserList);
     }
 
 

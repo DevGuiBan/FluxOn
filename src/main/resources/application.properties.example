@@ -1,0 +1,16 @@
+spring.application.name=fluxOn
+
+spring.datasource.url=jdbc:postgresql://localhost:PORT/DATABASE
+spring.datasource.username=DB_USERNAME
+spring.datasource.password=YOUR_PASSWORD
+
+api.security.token.secret=${JWT_SECRET:YOUR-SECRET-KEY}
+server.address=0.0.0.0
+
+# spring.jpa.open-in-view está ativada por padrão. Isso permite consultas ao banco durante a renderização da view, o que pode causar problemas de performance ou transação.
+# Transações longas: A sessão do banco fica aberta por mais tempo, aumentando o risco de bloqueios e lentidão.
+# LazyInitializationException: Se a sessão for fechada antes de acessar dados lazy, ocorre erro.
+# Vazamento de recursos: Mais conexões abertas podem sobrecarregar o banco.
+# Dificuldade de rastrear queries: Consultas podem ser disparadas fora do controller, dificultando o controle e debug.
+
+spring.jpa.open-in-view=false
