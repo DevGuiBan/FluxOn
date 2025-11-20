@@ -6,7 +6,6 @@ FluxOn é um sistema de controle de ponto eletrônico desenvolvido em Java com S
 
 - Registro de ponto (entrada e saída)
 - Controle de status de presença (ex: presente, ausente)
-- Justificativa de ausência
 - Integração com banco de dados PostgreSQL
 - API RESTful para integração com frontends ou outros sistemas
 
