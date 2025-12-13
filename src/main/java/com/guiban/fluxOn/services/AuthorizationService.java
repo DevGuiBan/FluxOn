@@ -1,6 +1,6 @@
 package com.guiban.fluxOn.services;
 
-import com.guiban.fluxOn.user.UserRepository;
+import com.guiban.fluxOn.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

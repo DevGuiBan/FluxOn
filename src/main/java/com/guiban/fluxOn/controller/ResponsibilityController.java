@@ -1,11 +1,13 @@
 package com.guiban.fluxOn.controller;
 
+import com.guiban.fluxOn.infra.security.SecurityConfiguration;
 import com.guiban.fluxOn.infra.security.TokenService;
-import com.guiban.fluxOn.responsibility.Responsibility;
-import com.guiban.fluxOn.responsibility.ResponsibilityRepository;
-import com.guiban.fluxOn.responsibility.dto.ResponsibilityRegisterDTO;
-import com.guiban.fluxOn.responsibility.dto.ResponsibilityResponseDTO;
-import com.guiban.fluxOn.user.UserRepository;
+import com.guiban.fluxOn.domain.responsibility.Responsibility;
+import com.guiban.fluxOn.domain.responsibility.ResponsibilityRepository;
+import com.guiban.fluxOn.domain.responsibility.dto.ResponsibilityRegisterDTO;
+import com.guiban.fluxOn.domain.responsibility.dto.ResponsibilityResponseDTO;
+import com.guiban.fluxOn.domain.user.UserRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("responsibility")
+@SecurityRequirement(name = SecurityConfiguration.SECURITY)
 public class ResponsibilityController {
 
     @Autowired

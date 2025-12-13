@@ -1,31 +1,35 @@
 package com.guiban.fluxOn.controller;
 
-import com.guiban.fluxOn.timeClock.AttendanceStatus;
-import com.guiban.fluxOn.timeClock.TimeClock;
-import com.guiban.fluxOn.timeClock.TimeClockRepository;
-import com.guiban.fluxOn.timeClock.dto.TimeClockRegisterInDTO;
-import com.guiban.fluxOn.timeClock.dto.TimeClockResponseDTO;
-import com.guiban.fluxOn.timeClock.dto.TimeClockUpdateDTO;
-import com.guiban.fluxOn.user.User;
-import com.guiban.fluxOn.user.UserRepository;
-import com.guiban.fluxOn.workSchedule.Turn;
-import com.guiban.fluxOn.workSchedule.WorkSchedule;
-import com.guiban.fluxOn.workSchedule.WorkScheduleRepository;
+import com.guiban.fluxOn.infra.security.SecurityConfiguration;
+import com.guiban.fluxOn.domain.timeClock.AttendanceStatus;
+import com.guiban.fluxOn.domain.timeClock.TimeClock;
+import com.guiban.fluxOn.domain.timeClock.TimeClockRepository;
+import com.guiban.fluxOn.domain.timeClock.dto.TimeClockRegisterInDTO;
+import com.guiban.fluxOn.domain.timeClock.dto.TimeClockResponseDTO;
+import com.guiban.fluxOn.domain.timeClock.dto.TimeClockUpdateDTO;
+import com.guiban.fluxOn.domain.user.User;
+import com.guiban.fluxOn.domain.user.UserRepository;
+import com.guiban.fluxOn.domain.workSchedule.Turn;
+import com.guiban.fluxOn.domain.workSchedule.WorkSchedule;
+import com.guiban.fluxOn.domain.workSchedule.WorkScheduleRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("timeClock")
+@SecurityRequirement(name = SecurityConfiguration.SECURITY)
 public class TimeClockController {
 
     @Autowired
@@ -50,7 +54,7 @@ public class TimeClockController {
     }
 
     @GetMapping("/timeClocksById/{id}")
-    public ResponseEntity<?> getTimeClocksById (@PathVariable UUID id) {
+    public ResponseEntity<?> getTimeClocksById(@PathVariable UUID id) {
         try {
             List<TimeClockResponseDTO> timeClockList = timeClockRepository.findByUserId(id).stream()
                     .map(TimeClockResponseDTO::new).toList();

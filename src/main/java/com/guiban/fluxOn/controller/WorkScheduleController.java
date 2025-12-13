@@ -1,15 +1,17 @@
 package com.guiban.fluxOn.controller;
 
-import com.guiban.fluxOn.user.User;
-import com.guiban.fluxOn.user.UserRepository;
-import com.guiban.fluxOn.workSchedule.DayOfWeek;
-import com.guiban.fluxOn.workSchedule.Turn;
-import com.guiban.fluxOn.workSchedule.WorkSchedule;
-import com.guiban.fluxOn.workSchedule.WorkScheduleRepository;
-import com.guiban.fluxOn.workSchedule.dto.WorkScheduleBulkUpdateDTO;
-import com.guiban.fluxOn.workSchedule.dto.WorkScheduleRegisterDTO;
-import com.guiban.fluxOn.workSchedule.dto.WorkScheduleResponseDTO;
-import com.guiban.fluxOn.workSchedule.dto.WorkScheduleUpdateDTO;
+import com.guiban.fluxOn.infra.security.SecurityConfiguration;
+import com.guiban.fluxOn.domain.user.User;
+import com.guiban.fluxOn.domain.user.UserRepository;
+import com.guiban.fluxOn.domain.workSchedule.DayOfWeek;
+import com.guiban.fluxOn.domain.workSchedule.Turn;
+import com.guiban.fluxOn.domain.workSchedule.WorkSchedule;
+import com.guiban.fluxOn.domain.workSchedule.WorkScheduleRepository;
+import com.guiban.fluxOn.domain.workSchedule.dto.WorkScheduleBulkUpdateDTO;
+import com.guiban.fluxOn.domain.workSchedule.dto.WorkScheduleRegisterDTO;
+import com.guiban.fluxOn.domain.workSchedule.dto.WorkScheduleResponseDTO;
+import com.guiban.fluxOn.domain.workSchedule.dto.WorkScheduleUpdateDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +20,10 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RequestMapping("workSchedule")
 @RestController
+@SecurityRequirement(name = SecurityConfiguration.SECURITY)
 public class WorkScheduleController {
 
     @Autowired

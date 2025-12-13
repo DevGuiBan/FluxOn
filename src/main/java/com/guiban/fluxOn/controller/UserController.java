@@ -1,16 +1,19 @@
 package com.guiban.fluxOn.controller;
 
-import com.guiban.fluxOn.responsibility.Responsibility;
-import com.guiban.fluxOn.responsibility.ResponsibilityRepository;
-import com.guiban.fluxOn.user.*;
-import com.guiban.fluxOn.user.dto.UserWithSpecsAdminUpdateDTO;
-import com.guiban.fluxOn.user.dto.UserWithSpecsUserUpdateDTO;
-import com.guiban.fluxOn.userSpecs.PaymentMethodUser;
-import com.guiban.fluxOn.userSpecs.UserSpecs;
-import com.guiban.fluxOn.user.dto.UserResponseDTO;
-import com.guiban.fluxOn.user.dto.UserWithSpecsResponseDTO;
-import com.guiban.fluxOn.userSpecs.UserSpecsRepository;
-import com.guiban.fluxOn.userSpecs.dto.UserSpecsRegisterDTO;
+import com.guiban.fluxOn.domain.user.User;
+import com.guiban.fluxOn.domain.user.UserRepository;
+import com.guiban.fluxOn.domain.user.UserRole;
+import com.guiban.fluxOn.infra.security.SecurityConfiguration;
+import com.guiban.fluxOn.domain.responsibility.Responsibility;
+import com.guiban.fluxOn.domain.responsibility.ResponsibilityRepository;
+import com.guiban.fluxOn.domain.user.dto.UserWithSpecsAdminUpdateDTO;
+import com.guiban.fluxOn.domain.user.dto.UserWithSpecsUserUpdateDTO;
+import com.guiban.fluxOn.domain.userSpecs.PaymentMethodUser;
+import com.guiban.fluxOn.domain.userSpecs.UserSpecs;
+import com.guiban.fluxOn.domain.user.dto.UserResponseDTO;
+import com.guiban.fluxOn.domain.user.dto.UserWithSpecsResponseDTO;
+import com.guiban.fluxOn.domain.userSpecs.UserSpecsRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +24,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("manager")
+@SecurityRequirement(name = SecurityConfiguration.SECURITY)
 public class UserController {
 
     @Autowired

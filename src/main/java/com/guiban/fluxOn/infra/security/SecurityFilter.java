@@ -1,6 +1,6 @@
 package com.guiban.fluxOn.infra.security;
 
-import com.guiban.fluxOn.user.UserRepository;
+import com.guiban.fluxOn.domain.user.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
