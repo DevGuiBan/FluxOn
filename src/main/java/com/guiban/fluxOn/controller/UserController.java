@@ -66,8 +66,6 @@ public class UserController {
     public ResponseEntity<?> getAllUsersWithSpecs() {
         try {
             List<UserWithSpecsResponseDTO> userList = userRepository.findAll().stream()
-                    .filter(user -> user.getUserSpecs() != null)
-                    .filter(User::isActive)
                     .map(user -> new UserWithSpecsResponseDTO(user, user.getUserSpecs()))
                     .toList();
             return ResponseEntity.ok(userList);
@@ -143,30 +141,49 @@ public class UserController {
         if (user == null) return ResponseEntity.status(404).body("Usuário não encontrado.");
 
         try {
-            if (data.name() != null) user.setName(data.name());
-            if (data.email() != null) user.setEmail(data.email());
-            if (data.password() != null) {
+            // Update User data
+            if (data.name() != null && !data.name().isEmpty()) user.setName(data.name());
+            if (data.email() != null && !data.email().isEmpty()) user.setEmail(data.email());
+            if (data.password() != null && !data.password().isEmpty()) {
                 String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
                 user.setPassword(encryptedPassword);
             }
             userRepository.save(user);
 
+            // Get or create UserSpecs
             UserSpecs userSpecs = user.getUserSpecs();
-            if (userSpecs != null) {
-                if (data.number() != null) userSpecs.setNumber(data.number());
-                if (data.cpf() != null) userSpecs.setCpf(data.cpf());
-                if (data.rg() != null) userSpecs.setRg(data.rg());
-                if (data.paymentMethod() != null) userSpecs.setPaymentMethod(PaymentMethodUser.valueOf(data.paymentMethod()));
-                if (data.paymentMethodDetails() != null) userSpecs.setPaymentMethodDetails(data.paymentMethodDetails());
-                if (data.bank() != null) userSpecs.setBank(data.bank());
-                if (data.agency() != null) userSpecs.setAgency(data.agency());
-                if (data.account() != null) userSpecs.setAccount(data.account());
-                userSpecsRepository.save(userSpecs);
+            if (userSpecs == null) {
+                // Create new UserSpecs if it doesn't exist
+                userSpecs = new UserSpecs();
+                userSpecs.setUser(user);
+            }
+
+            // Update UserSpecs data
+            if (data.number() != null && !data.number().isEmpty()) userSpecs.setNumber(data.number());
+            if (data.cpf() != null && !data.cpf().isEmpty()) userSpecs.setCpf(data.cpf());
+            if (data.rg() != null && !data.rg().isEmpty()) userSpecs.setRg(data.rg());
+            if (data.paymentMethod() != null && !data.paymentMethod().isEmpty()) {
+                userSpecs.setPaymentMethod(PaymentMethodUser.valueOf(data.paymentMethod()));
+            }
+            if (data.paymentMethodDetails() != null && !data.paymentMethodDetails().isEmpty()) {
+                userSpecs.setPaymentMethodDetails(data.paymentMethodDetails());
+            }
+            if (data.bank() != null && !data.bank().isEmpty()) userSpecs.setBank(data.bank());
+            if (data.agency() != null && !data.agency().isEmpty()) userSpecs.setAgency(data.agency());
+            if (data.account() != null && !data.account().isEmpty()) userSpecs.setAccount(data.account());
+
+            userSpecsRepository.save(userSpecs);
+
+            // Update user reference if it was newly created
+            if (user.getUserSpecs() == null) {
+                user.setUserSpecs(userSpecs);
+                userRepository.save(user);
             }
 
             return ResponseEntity.ok("Usuário atualizado com sucesso.");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Erro ao atualizar usuário: " + e.getMessage());
         }
     }
 

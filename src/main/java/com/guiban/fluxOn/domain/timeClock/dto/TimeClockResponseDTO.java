@@ -14,9 +14,9 @@ public record TimeClockResponseDTO (UUID id,
                                     String userName,
                                     AttendanceStatus attendanceStatus,
                                     Turn turn,
-                                    @JsonFormat(pattern = "dd-MM-yyyy") LocalDate date,
-                                    Time clock,
-                                    Time clockOut
+                                    @JsonFormat(pattern = "yyyy-MM-dd") LocalDate date,
+                                    @JsonFormat(pattern = "HH:mm:ss") Time clock,
+                                    @JsonFormat(pattern = "HH:mm:ss") Time clockOut
                                     ) {
     
     public TimeClockResponseDTO(TimeClock timeClock) {
